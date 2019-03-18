@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:home_work_route/http/api.dart';
 import 'package:banner_view/banner_view.dart';
+import 'package:home_work_route/manager/app_manager.dart';
 import 'package:home_work_route/page/main_drawer.dart';
 class ArticleApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    AppManager.initApp();
     return new MaterialApp(
       home: new Scaffold(
         appBar: new AppBar(

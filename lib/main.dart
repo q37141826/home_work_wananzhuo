@@ -112,7 +112,7 @@ import 'package:home_work_route/page/article.dart';
 //}
 
 //void main() => runApp(MyApp());
-void main() => runApp(new ArticleApp());
+void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
   @override
