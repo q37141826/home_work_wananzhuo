@@ -74,7 +74,7 @@ class _MainDrawerState extends State<MainDrawer> {
           padding: EdgeInsets.fromLTRB(18, 0, 18, 0),
         ),
         Offstage(
-          offstage: _username = null,
+          offstage: _username == null,
           child: InkWell(
             onTap: () {
               setState(() {
