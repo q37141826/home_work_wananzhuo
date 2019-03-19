@@ -50,6 +50,19 @@ class HttpManager {
     }
   }
 
+  post(url, {data, String method = "post"}) async {
+    try {
+      Options option = new Options(method: method);
+      Response response = await _dio.request(url, data: data, options: option);
+      print(response.request.headers);
+      print(response.data);
+      return response.data;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
   void clearCookie() {
     _persistCookieJar.deleteAll();
   }

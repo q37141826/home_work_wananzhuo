@@ -3,6 +3,7 @@ import 'package:home_work_route/http/api.dart';
 import 'package:banner_view/banner_view.dart';
 import 'package:home_work_route/manager/app_manager.dart';
 import 'package:home_work_route/page/main_drawer.dart';
+import 'package:toast/toast.dart';
 class ArticleApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -206,6 +207,11 @@ class ArticleItem extends StatelessWidget {
     Text chapterName = new Text(itemData['chapterName'],
         style: new TextStyle(color: Theme.of(context).primaryColor));
 
+    ///收藏按钮
+    Text collection = new Text("收藏",
+        style: new TextStyle(color: Theme.of(context).primaryColor)
+    );
+
     Column column = new Column( //垂直线性布局
       crossAxisAlignment: CrossAxisAlignment.start, //子控件左对齐
       children: <Widget>[
@@ -221,6 +227,15 @@ class ArticleItem extends StatelessWidget {
           padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
           child: chapterName,
         ),
+        new Padding(
+          padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
+          child:InkWell(
+            onTap: (){
+              _getCollects(itemData['id'],context);
+            },
+            child: collection,
+          ),
+        ),
       ],
     );
 
@@ -230,5 +245,13 @@ class ArticleItem extends StatelessWidget {
       child: column,
     );
   }
+
+
+
+  void _getCollects(int id,BuildContext con) async {
+    var data = await Api.collectThisArticle(id);
+    Toast.show(data['msg'], con);
+  }
+
 }
 

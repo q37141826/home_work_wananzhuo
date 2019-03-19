@@ -20,8 +20,10 @@ class Api {
   //退出
   static const String LOGOUT = "user/logout/json";
 
+  //收藏列表
+  static const String COLLECT_LIST = "lg/collect/list/";
   //收藏
-  static const String COLLECT = "lg/collect/list/";
+  static const String COLLECT = "lg/collect/";
 
   static getArticleList(int page) async {
     return await HttpManager.getInstance().request('$ARTICLE_LIST$page/json');
@@ -53,6 +55,10 @@ class Api {
   }
 
   static getCollects(int page) async {
-    return await HttpManager.getInstance().request("$COLLECT/$page/json");
+    return await HttpManager.getInstance().request("$COLLECT_LIST/$page/json");
   }
+  static collectThisArticle(int id) async{
+    return await HttpManager.getInstance().post("$COLLECT/$id/json");
+  }
+
 }
