@@ -22,6 +22,7 @@ class Api {
 
   //收藏列表
   static const String COLLECT_LIST = "lg/collect/list/";
+
   //收藏
   static const String COLLECT = "lg/collect/";
 
@@ -50,15 +51,15 @@ class Api {
         .request(REGISTER, data: formData, method: "post");
   }
 
-  static clearCookie(){
+  static clearCookie() {
     HttpManager.getInstance().clearCookie();
   }
 
   static getCollects(int page) async {
     return await HttpManager.getInstance().request("$COLLECT_LIST/$page/json");
   }
-  static collectThisArticle(int id) async{
+
+  static collectThisArticle(int id) async {
     return await HttpManager.getInstance().post("$COLLECT/$id/json");
   }
-
 }

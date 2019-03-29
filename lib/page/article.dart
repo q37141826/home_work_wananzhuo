@@ -4,6 +4,7 @@ import 'package:banner_view/banner_view.dart';
 import 'package:home_work_route/manager/app_manager.dart';
 import 'package:home_work_route/page/main_drawer.dart';
 import 'package:toast/toast.dart';
+
 class ArticleApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -69,7 +70,6 @@ class _ArticlePageState extends State<ArticlePage> {
     _pullToRefresh();
   }
 
-
   _getArticlelist([bool update = true]) async {
     /// 请求成功是map，失败是null
     var data = await Api.getArticleList(curPage);
@@ -114,28 +114,31 @@ class _ArticlePageState extends State<ArticlePage> {
     return null;
   }
 
-
   @override
   Widget build(BuildContext context) {
     //Stack：帧布局
     return Stack(
       children: <Widget>[
         ///正在加载
-        Offstage( //可以控制是否隐藏
+        Offstage(
+          //可以控制是否隐藏
           offstage: !_isLoading, //是否隐藏
-          child: new Center(child: CircularProgressIndicator()),//圆形进度指示器(小菊花)
+          child: new Center(child: CircularProgressIndicator()), //圆形进度指示器(小菊花)
         ),
 
         ///内容
         Offstage(
           offstage: _isLoading,
-          child: new RefreshIndicator( //下拉刷新
+          child: new RefreshIndicator(
+              //下拉刷新
               child: ListView.builder(
-                itemCount: articles.length + 1,	//列表视图的个数
-                itemBuilder: (context, i) => _buildItem(i),//类似adapter，item显示什么？返回widget
-                controller: _controller,//滑动控制器
+                itemCount: articles.length + 1,
+                //列表视图的个数
+                itemBuilder: (context, i) => _buildItem(i),
+                //类似adapter，item显示什么？返回widget
+                controller: _controller, //滑动控制器
               ),
-              onRefresh: _pullToRefresh),//刷新回调方法
+              onRefresh: _pullToRefresh), //刷新回调方法
         )
       ],
     );
@@ -152,7 +155,6 @@ class _ArticlePageState extends State<ArticlePage> {
     return new ArticleItem(itemData);
   }
 
-
   Widget _bannerView() {
     ///banners是请求到的banner信息组，其中imagePath代表了图片地址
     ///map意为映射，对banners中的数据进行遍历并返回Iterable<?>迭代器，
@@ -160,19 +162,18 @@ class _ArticlePageState extends State<ArticlePage> {
     var list = banners.map((item) {
       return Image.network(item['imagePath'], fit: BoxFit.cover);
     }).toList();
+
     ///BannerView的条目不能为空
     return list.isNotEmpty
         ? BannerView(
-      list,
-      ///切换时间
-      intervalDuration: const Duration(seconds: 3),
-    )
+            list,
+
+            ///切换时间
+            intervalDuration: const Duration(seconds: 3),
+          )
         : null;
   }
 }
-
-
-
 
 class ArticleItem extends StatelessWidget {
   final itemData;
@@ -182,17 +183,18 @@ class ArticleItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ///时间与作者
-    Row author = new Row( //水平线性布局
+    Row author = new Row(
+      //水平线性布局
       children: <Widget>[
         //expanded 最后摆我，相当于linearlayout的weight权重
         new Expanded(
             child: Text.rich(TextSpan(children: [
-              TextSpan(text: "作者: "),
-              TextSpan(
-                  text: itemData['author'],
-                  style: new TextStyle(color: Theme.of(context).primaryColor))
-            ]))),
-        new Text(itemData['niceDate'])//时间
+          TextSpan(text: "作者: "),
+          TextSpan(
+              text: itemData['author'],
+              style: new TextStyle(color: Theme.of(context).primaryColor))
+        ]))),
+        new Text(itemData['niceDate']) //时间
       ],
     );
 
@@ -209,10 +211,10 @@ class ArticleItem extends StatelessWidget {
 
     ///收藏按钮
     Text collection = new Text("收藏",
-        style: new TextStyle(color: Theme.of(context).primaryColor)
-    );
+        style: new TextStyle(color: Theme.of(context).primaryColor));
 
-    Column column = new Column( //垂直线性布局
+    Column column = new Column(
+      //垂直线性布局
       crossAxisAlignment: CrossAxisAlignment.start, //子控件左对齐
       children: <Widget>[
         new Padding(
@@ -229,9 +231,9 @@ class ArticleItem extends StatelessWidget {
         ),
         new Padding(
           padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
-          child:InkWell(
-            onTap: (){
-              _getCollects(itemData['id'],context);
+          child: InkWell(
+            onTap: () {
+              _getCollects(itemData['id'], context);
             },
             child: collection,
           ),
@@ -246,12 +248,8 @@ class ArticleItem extends StatelessWidget {
     );
   }
 
-
-
-  void _getCollects(int id,BuildContext con) async {
+  void _getCollects(int id, BuildContext con) async {
     var data = await Api.collectThisArticle(id);
     Toast.show(data['msg'], con);
   }
-
 }
-
