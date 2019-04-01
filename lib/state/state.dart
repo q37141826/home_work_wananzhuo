@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:home_work_route/state/modle.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 void main() => runApp(new MyApp01());
-NumModle countModel = NumModle();
 
 class MyApp01 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ScopedModel(model: countModel,
+    return ScopedModel(model: NumModle.getModlel(),
         child: MaterialApp(
       home: Page01Main(),
     ));
@@ -38,7 +38,7 @@ class _Page01MainState extends State<Page01Main> {
           Center(
               child: Padding(
             padding: const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
-            child: Text(countModel.count.toString()),
+            child: Text(NumModle.getModlel().count.toString()),
           )),
           RaisedButton(
               child: Text("跳转下一页"),
@@ -78,7 +78,7 @@ class _Page02MainState extends State<Page02Main> {
             Center(
                 child: Padding(
               padding: const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
-              child: Text(countModel.count.toString()),
+              child: Text(NumModle.getModlel().count.toString()),
             )),
             Padding(
               padding: const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
@@ -88,7 +88,7 @@ class _Page02MainState extends State<Page02Main> {
                   style: TextStyle(color: Colors.blue),
                 ),
                 onTap: () {
-                  countModel.increment();
+                  NumModle.getModlel().increment();
                   setState(() {});
                 },
               ),
@@ -104,17 +104,4 @@ class _Page02MainState extends State<Page02Main> {
   }
 }
 
-class NumModle extends Model {
-  int _count = 0;
 
-  void setcount(int value) {
-    _count = value;
-  }
-
-  int get count => _count;
-
-  void increment() {
-    _count++;
-    notifyListeners();
-  }
-}
